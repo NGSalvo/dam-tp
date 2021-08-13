@@ -1,0 +1,30 @@
+@api =  http://localhost:3000/measurements
+
+GET {{api}}
+
+###
+GET {{api}}/
+
+###
+GET {{api}}/count
+
+###
+POST {{api}}
+Content-Type: application/json
+
+{
+  "name": "task 4",
+  "location": "some desc 4",
+  "solenoid_valve_id": 7
+}
+
+###
+DELETE {{api}}/5
+
+###
+PUT {{api}}/1
+Content-Type: application/json
+
+{
+  "date_of_measurement": "2021-08-01T02:32:05.000Z"
+}

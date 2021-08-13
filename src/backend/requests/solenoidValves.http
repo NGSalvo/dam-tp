@@ -1,0 +1,28 @@
+@api =  http://localhost:3000/solenoidValves
+
+GET {{api}}
+
+###
+GET {{api}}/1
+
+###
+GET {{api}}/count
+
+###
+POST {{api}}
+Content-Type: application/json
+
+{
+  "name": "Electrovalvula",
+}
+
+###
+DELETE {{api}}/7
+
+###
+PUT {{api}}/1
+Content-Type: application/json
+
+{
+  "name": "elPatio2"
+}

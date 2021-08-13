@@ -1,0 +1,33 @@
+@api =  http://localhost:3000/devices
+
+GET {{api}}
+
+###
+GET {{api}}/1
+
+###
+GET {{api}}/measurements/1
+
+###
+GET {{api}}/count
+
+###
+POST {{api}}
+Content-Type: application/json
+
+{
+  "name": "task 4",
+  "location": "some desc 4",
+  "solenoid_valve_id": 7
+}
+
+###
+DELETE {{api}}/5
+
+###
+PUT {{api}}/1
+Content-Type: application/json
+
+{
+  "name": "Sensor 1"
+}
