@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 
 type OpenStatus = 'Abierta' | 'Cerrada';
@@ -10,9 +11,9 @@ enum IsOpenStatus {
 export class IrrigationLog {
   constructor(
     private _id: string,
-    private _status: number,
-    private _date: Date,
-    private _solenoidValveId: string
+    private _opened: number,
+    private _date_of_log: Date,
+    private _solenoid_valve_id: string
   ) {}
 
   get id(): string {
@@ -21,26 +22,26 @@ export class IrrigationLog {
   set id(value: string) {
     this._id = value;
   }
-  get status(): number {
-    return this._status;
+  get opened(): number {
+    return this._opened;
   }
-  set status(value: number) {
-    this._status = value;
+  set opened(value: number) {
+    this._opened = value;
   }
-  get date(): Date {
-    return this._date;
+  get date_of_log(): Date {
+    return this._date_of_log;
   }
-  set date(value: Date | string) {
-    this._date = typeof value === 'string' ? new Date(value) : value;
+  set date_of_log(value: Date | string) {
+    this._date_of_log = typeof value === 'string' ? new Date(value) : value;
   }
-  get solenoidValveId(): string {
-    return this._solenoidValveId;
+  get solenoid_valve_id(): string {
+    return this._solenoid_valve_id;
   }
-  set solenoidValveId(value: string) {
-    this._solenoidValveId = value;
+  set solenoid_valve_id(value: string) {
+    this._solenoid_valve_id = value;
   }
 
   get isOpened(): OpenStatus {
-    return this._status === IsOpenStatus.opened ? 'Abierta' : 'Cerrada';
+    return this._opened === IsOpenStatus.opened ? 'Abierta' : 'Cerrada';
   }
 }

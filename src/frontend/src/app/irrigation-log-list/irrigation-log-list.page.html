@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title
-      >Mediciones de la válvula {{logs[0]?.solenoidValveId ||
+      >Log de la válvula {{logs[0]?.solenoid_valve_id ||
       'Indefinido'}}</ion-title
     >
     <ion-buttons slot="end">
@@ -14,7 +14,7 @@
   <ion-list>
     <ion-item *ngFor="let log of logs">
       <ion-label>
-        <h1>{{ log.date.toLocaleString() }}</h1>
+        <h1>{{ log.date_of_log | date:'short' }}</h1>
         <h2>{{ log.isOpened }}</h2>
       </ion-label>
     </ion-item>

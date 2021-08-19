@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 export class Device {
   private _id: string;
@@ -35,10 +36,10 @@ export class Device {
   set location(value: string) {
     this._location = value;
   }
-  get solenoidValveId(): string {
+  get solenoid_valve_id(): string {
     return this._solenoidValveId;
   }
-  set solenoidValveId(value: string) {
+  set solenoid_valve_id(value: string) {
     this._solenoidValveId = value;
   }
 }

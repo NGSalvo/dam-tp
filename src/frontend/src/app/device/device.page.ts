@@ -8,6 +8,7 @@ import { IrrigationLog } from '../models/IrrigationLog';
 import * as Highcharts from 'highcharts';
 import { IrrigationLogListPage } from '../irrigation-log-list/irrigation-log-list.page';
 import { Measurement } from '../models/Measurement';
+import { IrrigationLogService } from '../services/irrigation-log.service';
 declare let require: any;
 require('highcharts/highcharts-more')(Highcharts);
 require('highcharts/modules/solid-gauge')(Highcharts);
@@ -31,41 +32,22 @@ export class DevicePage implements OnInit, ViewWillEnter, ViewDidEnter {
   constructor(
     private activatedRoute: ActivatedRoute,
     private deviceService: DeviceService,
+    private irrigationLogService: IrrigationLogService,
     private modalController: ModalController
   ) {
-    setTimeout(() => {
-      console.log('Cambio el valor del sensor');
-      this.valorObtenido = this.getLastMeasureValue();
-      //llamo al update del chart para refrescar y mostrar el nuevo valor
-      this.myChart.update({
-        series: [
-          {
-            name: 'kPA',
-            data: [this.valorObtenido],
-            tooltip: {
-              valueSuffix: ' kPA',
-            },
-          },
-        ],
-      });
-    }, 1500);
+    this.deviceId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.getData();
   }
 
   ionViewWillEnter(): void {
-    console.log('ionViewWillEnter ' + this.device);
+    console.log('Probando ciclo de vida');
   }
 
   ionViewDidEnter() {
     this.generarChart();
   }
 
-  ngOnInit() {
-    this.deviceId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.device = this.deviceService.getDeviceById(this.deviceId);
-    this.getIrrigationLog();
-    this.getOpenStatus();
-    this.getDeviceMeasurements();
-  }
+  ngOnInit() {}
 
   generarChart() {
     this.chartOptions = {
@@ -142,29 +124,54 @@ export class DevicePage implements OnInit, ViewWillEnter, ViewDidEnter {
 
   toggleValve() {
     this.isOpen = !this.isOpen;
+
+    // Agrega nuevo registro
     const newLog = this.createIrrigationLog(+this.isOpen);
+    this.irrigationLogService.postIrrigationLog(newLog);
+
     const openStatusDescription = this.getOpenStatusDescription();
     if (openStatusDescription === 'Abierta') {
+      // Simula la generación de un nuevo valor aleatorio y se renderiza
       this.valorObtenido = Math.floor(Math.random() * 101);
       this.renderUpdateChart(this.valorObtenido);
     } else {
+      // Agrega una nueva medición
       const newMeasure = this.createMeasure(this.valorObtenido);
-      this.deviceService.addNewMeasure(newMeasure);
+      this.deviceService.postMeasure(newMeasure);
+      // Simula el cerrado de una válvula, vuelve a 0 y se renderiza
       this.valorObtenido = 0;
       this.renderUpdateChart(this.valorObtenido);
     }
-    this.deviceService.addNewIrrigationLog(newLog);
   }
 
-  getIrrigationLog() {
-    this.irrigationLog = this.deviceService.getDeviceIrrigationLog(
-      this.deviceId
+  // Se obtienen los datos necesarios para trabajar con el template
+  async getData() {
+    this.device = await this.getDevice();
+    // Se genera nuevo objeto para que la propiedad virtual 'isOpened' surta efecto
+    this.irrigationLog = (await this.getIrrigationLog()).map(
+      (il) =>
+        new IrrigationLog(
+          il.id,
+          il.opened,
+          il.date_of_log,
+          il.solenoid_valve_id
+        )
     );
+    this.getOpenStatus();
+    this.measurements = await this.getDeviceMeasurements();
+    this.valorObtenido = this.getLastMeasureValue();
   }
 
-  async showIrrigationLog() {
-    // this.getIrrigationLog();
+  async getDevice() {
+    return this.deviceService.getDeviceById(this.deviceId);
+  }
 
+  async getIrrigationLog() {
+    return this.deviceService.getDeviceIrrigationLog(this.deviceId);
+  }
+
+  // Modal del Log
+  async showIrrigationLog() {
     const modal = await this.modalController.create({
       component: IrrigationLogListPage,
       componentProps: {
@@ -176,19 +183,15 @@ export class DevicePage implements OnInit, ViewWillEnter, ViewDidEnter {
   }
 
   createIrrigationLog(status: number): IrrigationLog {
-    // const irrigationLogCount = this.deviceService
-    //   .getDeviceIrrigationLogCount(this.device.solenoidValveId)
-    //   .toString();
-
     const newLog = new IrrigationLog(
       this.irrigationLog.length.toString(),
       status,
       new Date(),
-      this.device.solenoidValveId
+      this.device.solenoid_valve_id
     );
 
+    // Se agrega en memoria para fácil manipulación
     this.irrigationLog = [...this.irrigationLog, newLog];
-
     return newLog;
   }
 
@@ -200,30 +203,48 @@ export class DevicePage implements OnInit, ViewWillEnter, ViewDidEnter {
       this.deviceId
     );
 
+    // Se agrega en memoria para fácil manipulación
     this.measurements = [...this.measurements, newMeasure];
 
     return newMeasure;
   }
 
   getLastMeasureValue(): number {
-    return this.measurements[this.measurements.length - 1].value;
+    return +this.measurements[this.measurements.length - 1].value;
   }
 
   getLastIrrigationLog(): IrrigationLog {
     const currentLog = this.irrigationLog.filter(
-      (log) => log.solenoidValveId === this.device.solenoidValveId
+      (log) => log.solenoid_valve_id === this.device.solenoid_valve_id
     );
-    return currentLog[currentLog.length - 1];
+    console.log('getLastIrrigationLog', currentLog);
+    if (currentLog.length > 0) {
+      return currentLog[currentLog.length - 1];
+    } else {
+      return null;
+    }
   }
 
   getOpenStatus() {
-    const currentLog = this.getLastIrrigationLog();
-    this.isOpen = !!currentLog.status;
+    if (this.irrigationLog) {
+      this.isOpen = !this.isOpen;
+    } else {
+      const currentLog = this.getLastIrrigationLog();
+      if (!currentLog) {
+        this.isOpen = false;
+      } else {
+        this.isOpen = !!currentLog.opened;
+      }
+    }
   }
 
   getOpenStatusDescription() {
     const currentLog = this.getLastIrrigationLog();
-    return currentLog.isOpened;
+    if (currentLog instanceof IrrigationLog) {
+      return currentLog.isOpened;
+    } else {
+      return 'Cerrada';
+    }
   }
 
   renderUpdateChart(value: number) {
@@ -240,7 +261,7 @@ export class DevicePage implements OnInit, ViewWillEnter, ViewDidEnter {
     });
   }
 
-  getDeviceMeasurements() {
-    this.measurements = this.deviceService.getDeviceMeasurements(this.deviceId);
+  async getDeviceMeasurements() {
+    return this.deviceService.getDeviceMeasurements(this.deviceId);
   }
 }

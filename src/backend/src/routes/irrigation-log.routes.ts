@@ -1,15 +1,12 @@
 import { Router } from 'express';
 import {
-  getDevices,
-  getDevice,
-  getDevicesCount,
-  saveDevice,
-  deleteDevice,
-  updateDevice,
-  getDeviceMeasurements,
-  getDeviceIrrigationLog,
-  saveDeviceMeasurement,
-} from '../controllers/device.controller';
+  getIrrigationLogs,
+  getIrrigationLog,
+  getIrrigationLogsCount,
+  saveIrrigationLog,
+  deleteIrrigationLog,
+  updateIrrigationLog,
+} from '../controllers/irrigation-log.controller';
 
 export const router = Router();
 
@@ -78,7 +75,7 @@ export const router = Router();
  *              items:
  *                $ref: '#/components/schemas/Task'
  */
-router.get('/', getDevices);
+router.get('/', getIrrigationLogs);
 
 /**
  * @swagger
@@ -95,7 +92,7 @@ router.get('/', getDevices);
  *              type: integer
  *              example: 15
  */
-router.get('/count', getDevicesCount);
+router.get('/count', getIrrigationLogsCount);
 
 /**
  * @swagger
@@ -119,55 +116,7 @@ router.get('/count', getDevicesCount);
  *            schema:
  *              $ref: '#/components/schemas/TaskNotFound'
  */
-router.get('/:id', getDevice);
-
-/**
- * @swagger
- * /tasks/{id}:
- *  get:
- *    summary: get a task by id
- *    tags: [Tasks]
- *    parameters:
- *      - $ref: '#/components/parameters/taskId'
- *    responses:
- *      200:
- *        description: the task was found
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/Task'
- *      404:
- *        description: the task was not found
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
- */
-router.get('/:id/measurements', getDeviceMeasurements);
-
-/**
- * @swagger
- * /tasks/{id}:
- *  get:
- *    summary: get a task by id
- *    tags: [Tasks]
- *    parameters:
- *      - $ref: '#/components/parameters/taskId'
- *    responses:
- *      200:
- *        description: the task was found
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/Task'
- *      404:
- *        description: the task was not found
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
- */
-router.get('/:id/irrigation-log/', getDeviceIrrigationLog);
+router.get('/:id', getIrrigationLog);
 
 /**
  * @swagger
@@ -191,31 +140,7 @@ router.get('/:id/irrigation-log/', getDeviceIrrigationLog);
  *     500:
  *       description: some server error
  */
-router.post('/', saveDevice);
-
-/**
- * @swagger
- * /tasks:
- *  post:
- *    summary: create a new tasks
- *    tags: [Tasks]
- *    requestBody:
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Task'
- *    responses:
- *     200:
- *       description: the task successfully created
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Task'
- *     500:
- *       description: some server error
- */
-router.post('/measurement', saveDeviceMeasurement);
+router.post('/', saveIrrigationLog);
 
 /**
  * @swagger
@@ -239,7 +164,7 @@ router.post('/measurement', saveDeviceMeasurement);
  *            schema:
  *              $ref: '#/components/schemas/TaskNotFound'
  */
-router.delete('/:id', deleteDevice);
+router.delete('/:id', deleteIrrigationLog);
 
 /**
  * @swagger
@@ -269,4 +194,4 @@ router.delete('/:id', deleteDevice);
  *            schema:
  *              $ref: '#/components/schemas/TaskNotFound'
  */
-router.put('/:id', updateDevice);
+router.put('/:id', updateIrrigationLog);

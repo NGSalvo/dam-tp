@@ -1,4 +1,6 @@
 @api =  http://localhost:3000/devices
+@contentType = application/json
+@date = {{$datetime iso8601}}
 
 GET {{api}}
 
@@ -6,14 +8,17 @@ GET {{api}}
 GET {{api}}/1
 
 ###
-GET {{api}}/measurements/1
+GET {{api}}/1/measurements
+
+###
+GET {{api}}/1/irrigation-log
 
 ###
 GET {{api}}/count
 
 ###
 POST {{api}}
-Content-Type: application/json
+Content-Type: {{contentType}}
 
 {
   "name": "task 4",
@@ -22,11 +27,21 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{api}}/5
+POST {{api}}/measurement
+Content-Type: {{contentType}}
+
+{
+  "_date": "{{date}}",
+  "_value": 30,
+  "_deviceId": 7
+}
+
+###
+DELETE {{api}}/7
 
 ###
 PUT {{api}}/1
-Content-Type: application/json
+Content-Type: {{contentType}}
 
 {
   "name": "Sensor 1"

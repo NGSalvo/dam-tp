@@ -1,0 +1,30 @@
+@api =  http://localhost:3000/irrigation-log
+
+GET {{api}}
+
+###
+GET {{api}}/1
+
+###
+GET {{api}}/count
+
+###
+POST {{api}}
+Content-Type: application/json
+
+{
+  "opened": 1,
+  "date_of_log": "2021/08/18",
+  "solenoid_valve_id": 7
+}
+
+###
+DELETE {{api}}/5
+
+###
+PUT {{api}}/1
+Content-Type: application/json
+
+{
+  "name": "Sensor 1"
+}
