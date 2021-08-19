@@ -20,7 +20,6 @@ export class MeasurementListPage implements OnInit {
   async ngOnInit() {
     this.deviceId = this.activatedRoute.snapshot.paramMap.get('id');
     this.measurements = await this.getMeasurements();
-    console.log(this.measurements);
   }
 
   async getMeasurements(): Promise<Array<Measurement>> {

@@ -17,4 +17,10 @@ export class IrrigationLogListPage implements OnInit {
   dismissModal() {
     this.modalController.dismiss();
   }
+
+  getTitle() {
+    return this.logs.length > 0
+      ? `Log de la válvula ${this.logs[0]?.solenoid_valve_id}`
+      : 'Sin Log';
+  }
 }

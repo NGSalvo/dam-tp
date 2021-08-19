@@ -1,17 +1,14 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title
-      >Log de la válvula {{logs[0]?.solenoid_valve_id ||
-      'Indefinido'}}</ion-title
-    >
+    <ion-title>{{getTitle()}}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismissModal()">Cerrar</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-list>
+<ion-content class="ion-padding" *ngIf="logs.length > 0; else noValue">
+  <ion-list *ngIf="logs">
     <ion-item *ngFor="let log of logs">
       <ion-label>
         <h1>{{ log.date_of_log | date:'short' }}</h1>
@@ -20,3 +17,9 @@
     </ion-item>
   </ion-list>
 </ion-content>
+
+<ng-template #noValue>
+  <ion-content class="ion-padding">
+    <p>No hay valores para mostrar</p>
+  </ion-content>
+</ng-template>

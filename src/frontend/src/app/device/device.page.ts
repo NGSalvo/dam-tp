@@ -217,7 +217,6 @@ export class DevicePage implements OnInit, ViewWillEnter, ViewDidEnter {
     const currentLog = this.irrigationLog.filter(
       (log) => log.solenoid_valve_id === this.device.solenoid_valve_id
     );
-    console.log('getLastIrrigationLog', currentLog);
     if (currentLog.length > 0) {
       return currentLog[currentLog.length - 1];
     } else {
@@ -226,15 +225,11 @@ export class DevicePage implements OnInit, ViewWillEnter, ViewDidEnter {
   }
 
   getOpenStatus() {
-    if (this.irrigationLog) {
-      this.isOpen = !this.isOpen;
+    const currentLog = this.getLastIrrigationLog();
+    if (!currentLog) {
+      this.isOpen = false;
     } else {
-      const currentLog = this.getLastIrrigationLog();
-      if (!currentLog) {
-        this.isOpen = false;
-      } else {
-        this.isOpen = !!currentLog.opened;
-      }
+      this.isOpen = !!currentLog.opened;
     }
   }
 
