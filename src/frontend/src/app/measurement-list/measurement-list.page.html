@@ -10,7 +10,7 @@
   <ion-list>
     <ion-item *ngFor="let measurement of measurements">
       <ion-label>
-        <h1>{{ measurement.date.toLocaleString() }}</h1>
+        <h1>{{ measurement.date | date:'short' }}</h1>
         <h2>{{measurement.value}}</h2>
       </ion-label>
     </ion-item>

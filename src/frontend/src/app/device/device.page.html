@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{device.name}}</ion-title>
+    <ion-title>{{device?.name || 'Loading...'}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
@@ -30,7 +30,7 @@
     </ion-button>
   </ng-template>
   <ion-button
-    [routerLink]="['/device/measurements/' + deviceId]"
+    [routerLink]="['/device/'+ deviceId + '/measurements']"
     expand="block"
     fill="outline"
     class="ion-text-uppercase"

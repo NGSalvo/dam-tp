@@ -1,6 +1,6 @@
 export interface Measurement {
-  id: number;
-  date: Date;
-  value: string;
-  deviceId: number;
+  _id: number;
+  _date: Date;
+  _value: string;
+  _deviceId: number;
 }

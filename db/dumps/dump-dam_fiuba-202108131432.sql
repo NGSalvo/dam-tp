@@ -58,7 +58,7 @@ INSERT INTO `device` (`id`, `name`, `location`, `solenoid_valve_id`) VALUES
 CREATE TABLE `irrigation_log` (
   `id` int NOT NULL AUTO_INCREMENT,
   `opened` tinyint DEFAULT NULL,
-  `date_of_log` datetime DEFAULT NULL,
+  `date_of_log` datetime DEFAULT CURRENT_TIMESTAMP,
   `solenoid_valve_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `solenoid_valve_id` (`solenoid_valve_id`),
@@ -77,7 +77,7 @@ CREATE TABLE `irrigation_log` (
 
 CREATE TABLE `measurement` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `date_of_measurement` datetime DEFAULT NULL,
+  `date_of_measurement` datetime DEFAULT CURRENT_TIMESTAMP,
   `value` varchar(100) DEFAULT NULL,
   `device_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),

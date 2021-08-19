@@ -29,13 +29,13 @@ export const getMeasurement: Handler = async (req, res) => {
 };
 
 export const saveMeasurement: Handler = async (req, res) => {
-  const { date, value, deviceId }: Measurement = req.body;
+  const { _date, _value, _deviceId }: Measurement = req.body;
 
   try {
     const connection = await getConnection();
     const [results] = await connection.query<MeasurementRow>(
-      'INSERT INTO measurement(date, value, deviceId) VALUES (?, ?, ?)',
-      [date, value, deviceId],
+      'INSERT INTO measurement(date_of_measurement, value, device_id) VALUES (?, ?, ?)',
+      [_date, _value, _deviceId],
     );
     res.json({
       id: results.insertId,

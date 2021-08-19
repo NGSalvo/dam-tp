@@ -9,6 +9,7 @@ import { options } from './swaggerOptions';
 import { router as deviceRouter } from './routes/device.routes';
 import { router as measurementRouter } from './routes/measurement.routes';
 import { router as solenoidValveRouter } from './routes/solenoidValve.routes';
+import { router as irrigationLogRouter } from './routes/irrigation-log.routes';
 
 const specs = swaggerJSDoc(options);
 export const app = express();
@@ -21,4 +22,5 @@ app.use(express.json());
 app.use('/devices', deviceRouter);
 app.use('/measurements', measurementRouter);
 app.use('/solenoidvalves', solenoidValveRouter);
+app.use('/irrigation-log', irrigationLogRouter);
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));

@@ -8,9 +8,13 @@ import { DeviceService } from '../services/device.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  public devices: Device[];
+  public devices: Array<Device>;
 
   constructor(private deviceService: DeviceService) {
-    this.devices = deviceService.getDevices();
+    this.getDevices();
+  }
+
+  async getDevices() {
+    this.devices = await this.deviceService.getDevices();
   }
 }

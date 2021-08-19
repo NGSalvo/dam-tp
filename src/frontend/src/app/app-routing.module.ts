@@ -23,7 +23,7 @@ const routes: Routes = [
       import('./device/device.module').then((m) => m.DevicePageModule),
   },
   {
-    path: 'device/measurements/:id',
+    path: 'device/:id/measurements',
     loadChildren: () =>
       import('./measurement-list/measurement-list.module').then(
         (m) => m.MeasurementListPageModule
