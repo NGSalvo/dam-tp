@@ -3,7 +3,10 @@ import { getConnection } from '../db';
 import { RowDataPacket } from 'mysql2';
 import { IrrigationLog } from '../models/IrrigationLog';
 
-type IrrigationLogRow = IrrigationLog & RowDataPacket & RowDataPacket[];
+type IrrigationLogRow = IrrigationLog &
+  IrrigationLog[] &
+  RowDataPacket &
+  RowDataPacket[];
 
 export const getIrrigationLogs: Handler = async (req, res) => {
   const connection = await getConnection();

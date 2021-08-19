@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS device (
 
 CREATE TABLE IF NOT EXISTS measurement (
 	id INT auto_increment,
-	date_of_measurement DATETIME,
+	date_of_measurement DATETIME DEFAULT CURRENT_TIMESTAMP,
 	value VARCHAR(100),
 	device_id INT,
 	PRIMARY KEY(id),
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS measurement (
 CREATE TABLE IF NOT EXISTS irrigation_log (
 	id INT auto_increment,
 	opened TINYINT,
-	date_of_log DATETIME,
+	date_of_log DATETIME DEFAULT CURRENT_TIMESTAMP,
 	solenoid_valve_id INT,
 	PRIMARY KEY(id),
 	FOREIGN KEY(solenoid_valve_id) REFERENCES solenoid_valve(id)

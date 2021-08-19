@@ -4,8 +4,11 @@ import { RowDataPacket } from 'mysql2';
 import { Device } from '../models/Device';
 import { Measurement } from '../models/Measurement';
 
-type DeviceRow = Device & RowDataPacket & RowDataPacket[];
-type MeasurementRow = Measurement & RowDataPacket & RowDataPacket[];
+type DeviceRow = Device & Device[] & RowDataPacket & RowDataPacket[];
+type MeasurementRow = Measurement &
+  Measurement[] &
+  RowDataPacket &
+  RowDataPacket[];
 
 export const getDevices: Handler = async (req, res) => {
   const connection = await getConnection();
