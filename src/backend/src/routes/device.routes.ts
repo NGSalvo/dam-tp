@@ -18,77 +18,82 @@ export const router = Router();
  * @swagger
  * components:
  *  schemas:
- *    Task:
+ *    Device:
  *     type: object
  *     properties:
  *      id:
+ *        type: integer
+ *        description: the auto-generated id of device
+ *      name:
  *        type: string
- *        description: the auto-generated id of task
- *      title:
+ *        description: the name of the device
+ *      location:
  *        type: string
- *        description: the title of the task
- *      description:
- *        type: string
- *        description: the description of the task
+ *        description: the location of the device
+ *      solenoid_valve_id:
+ *        type: integer
+ *        description: the id of the asociated solenoid valve of the device
  *     required:
- *      - title
- *      - description
+ *      - name
+ *      - location
+ *      - solenoid_valve_id
  *     example:
- *      id: WQ8aBT2qKrKJdjzplZKjs
- *      title: A task
- *      description: A task description
- *    TaskNotFound:
+ *      id: 1
+ *      title: Sensor 1
+ *      location: Patio
+ *      solenoid_valve_id: 1
+ *    DeviceNotFound:
  *      type: object
  *      properties:
  *        message:
  *          type: string
- *          description: a message for the not found task
+ *          description: a message for the not found device
  *      example:
- *        message: Task was not found
+ *        message: El dispositivo no fue encontrado
  *  parameters:
- *    taskId:
+ *    deviceId:
  *      in: path
  *      name: id
  *      required: true
  *      schema:
  *        type: string
- *      description: the task id
+ *      description: the device id
  */
 
 /**
  * @swagger
  * tags:
- *  name: Tasks
- *  description:  Tasks endpoint
+ *  name: Devices
+ *  description:  Devices endpoint
  */
 
 /**
  * @swagger
- * /tasks:
+ * /devices:
  *  get:
- *    summary: Returns a task list
- *    tags: [Tasks]
+ *    summary: Returns a device list
+ *    tags: [Devices]
  *    responses:
  *      200:
- *        description: the list of tasks
+ *        description: the list of devices
  *        content:
  *          application/json:
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/Task'
+ *                $ref: '#/components/schemas/Device'
  */
 router.get('/', getDevices);
 
 /**
  * @swagger
- * /tasks/count:
+ * /devices/count:
  *  get:
- *    summary: Get total task count
- *    tags: [Tasks]
+ *    summary: Get total device count
+ *    tags: [Devices]
  *    responses:
  *      200:
- *        description: the total number of tasks
+ *        description: the total number of devices
  *        content:
  *          text/plain:
  *            schema:
@@ -99,95 +104,95 @@ router.get('/count', getDevicesCount);
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /devices/{id}:
  *  get:
- *    summary: get a task by id
- *    tags: [Tasks]
+ *    summary: get a device by id
+ *    tags: [Devices]
  *    parameters:
- *      - $ref: '#/components/parameters/taskId'
+ *      - $ref: '#/components/parameters/deviceId'
  *    responses:
  *      200:
- *        description: the task was found
+ *        description: the device was found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              $ref: '#/components/schemas/Device'
  *      404:
- *        description: the task was not found
+ *        description: the device was not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
+ *              $ref: '#/components/schemas/DeviceNotFound'
  */
 router.get('/:id', getDevice);
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /devices/{id}/measurements:
  *  get:
- *    summary: get a task by id
- *    tags: [Tasks]
+ *    summary: get measurements of a device by it id
+ *    tags: [Devices]
  *    parameters:
- *      - $ref: '#/components/parameters/taskId'
+ *      - $ref: '#/components/parameters/deviceId'
  *    responses:
  *      200:
- *        description: the task was found
+ *        description: the measurements were found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              $ref: '#/components/schemas/Device'
  *      404:
- *        description: the task was not found
+ *        description: the measurements were not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
+ *              $ref: '#/components/schemas/DeviceNotFound'
  */
 router.get('/:id/measurements', getDeviceMeasurements);
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /devices/{id}/irrigation-log:
  *  get:
- *    summary: get a task by id
- *    tags: [Tasks]
+ *    summary: get the logs of the device by it id
+ *    tags: [Devices]
  *    parameters:
- *      - $ref: '#/components/parameters/taskId'
+ *      - $ref: '#/components/parameters/deviceId'
  *    responses:
  *      200:
- *        description: the task was found
+ *        description: the logs were found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              $ref: '#/components/schemas/Device'
  *      404:
- *        description: the task was not found
+ *        description: the logs were not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
+ *              $ref: '#/components/schemas/DeviceNotFound'
  */
-router.get('/:id/irrigation-log/', getDeviceIrrigationLog);
+router.get('/:id/irrigation-log', getDeviceIrrigationLog);
 
 /**
  * @swagger
- * /tasks:
+ * /devices:
  *  post:
- *    summary: create a new tasks
- *    tags: [Tasks]
+ *    summary: create a new device
+ *    tags: [Devices]
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Task'
+ *            $ref: '#/components/schemas/Device'
  *    responses:
  *     200:
- *       description: the task successfully created
+ *       description: the device successfully created
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Task'
+ *             $ref: '#/components/schemas/Device'
  *     500:
  *       description: some server error
  */
@@ -195,23 +200,23 @@ router.post('/', saveDevice);
 
 /**
  * @swagger
- * /tasks:
+ * /devices:
  *  post:
- *    summary: create a new tasks
- *    tags: [Tasks]
+ *    summary: create a new measure
+ *    tags: [Devices]
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Task'
+ *            $ref: '#/components/schemas/Device'
  *    responses:
  *     200:
- *       description: the task successfully created
+ *       description: the measure successfully created
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Task'
+ *             $ref: '#/components/schemas/Device'
  *     500:
  *       description: some server error
  */
@@ -219,54 +224,54 @@ router.post('/measurement', saveDeviceMeasurement);
 
 /**
  * @swagger
- * /tasks/${id}:
+ * /devices/${id}:
  *  delete:
- *    summary: delete a task by id
- *    tags: [Tasks]
+ *    summary: delete a device by id
+ *    tags: [Devices]
  *    parameters:
- *      - $ref: '#/components/parameters/taskId'
+ *      - $ref: '#/components/parameters/deviceId'
  *    responses:
  *      200:
- *        description: the task was deleted
+ *        description: the device was deleted
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              $ref: '#/components/schemas/Device'
  *      404:
- *        description: the task was not found
+ *        description: the device was not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
+ *              $ref: '#/components/schemas/DeviceNotFound'
  */
 router.delete('/:id', deleteDevice);
 
 /**
  * @swagger
- * /tasks/${id}:
+ * /devices/${id}:
  *  put:
- *    summary: update a task by id
- *    tags: [Tasks]
+ *    summary: update a device by id
+ *    tags: [Devices]
  *    parameters:
- *      - $ref: '#/components/parameters/taskId'
+ *      - $ref: '#/components/parameters/deviceId'
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Task'
+ *            $ref: '#/components/schemas/Device'
  *    responses:
  *      200:
- *        description: the updated task
+ *        description: the updated device
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              $ref: '#/components/schemas/Device'
  *      404:
- *        description: the task was not found
+ *        description: the device was not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
+ *              $ref: '#/components/schemas/DeviceNotFound'
  */
 router.put('/:id', updateDevice);

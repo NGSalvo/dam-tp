@@ -15,77 +15,72 @@ export const router = Router();
  * @swagger
  * components:
  *  schemas:
- *    Task:
+ *    SolenoidValve:
  *     type: object
  *     properties:
  *      id:
+ *        type: integer
+ *        description: the auto-generated id of solenoidValve
+ *      name:
  *        type: string
- *        description: the auto-generated id of task
- *      title:
- *        type: string
- *        description: the title of the task
- *      description:
- *        type: string
- *        description: the description of the task
+ *        description: the name of the solenoidValve
  *     required:
- *      - title
- *      - description
+ *      - name
  *     example:
- *      id: WQ8aBT2qKrKJdjzplZKjs
- *      title: A task
- *      description: A task description
- *    TaskNotFound:
+ *      id: 1
+ *      name: eLPatio
+ *    SolenoidValveNotFound:
  *      type: object
  *      properties:
  *        message:
  *          type: string
- *          description: a message for the not found task
+ *          description: a message for the not found solenoidValve
  *      example:
- *        message: Task was not found
+ *        message: SolenoidValve was not found
  *  parameters:
- *    taskId:
+ *    solenoidValveId:
  *      in: path
  *      name: id
  *      required: true
  *      schema:
  *        type: string
- *      description: the task id
+ *      description: the solenoidValve id
  */
 
 /**
  * @swagger
  * tags:
- *  name: Tasks
- *  description:  Tasks endpoint
+ *  name: SolenoidValves
+ *  description:  SolenoidValves endpoint
  */
 
 /**
  * @swagger
- * /tasks:
+ * /solenoidValves:
  *  get:
- *    summary: Returns a task list
- *    tags: [Tasks]
+ *    summary: Returns a solenoidValve list
+ *    tags: [SolenoidValves]
  *    responses:
  *      200:
- *        description: the list of tasks
+ *        description: the list of solenoidValves
  *        content:
  *          application/json:
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/Task'
+ *                $ref: '#/components/schemas/SolenoidValve'
  */
 router.get('/', getSolenoidValves);
 
 /**
  * @swagger
- * /tasks/count:
+ * /solenoidValves/count:
  *  get:
- *    summary: Get total task count
- *    tags: [Tasks]
+ *    summary: Get total solenoidValve count
+ *    tags: [SolenoidValves]
  *    responses:
  *      200:
- *        description: the total number of tasks
+ *        description: the total number of solenoidValves
  *        content:
  *          text/plain:
  *            schema:
@@ -96,47 +91,47 @@ router.get('/count', getSolenoidValvesCount);
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /solenoidValves/{id}:
  *  get:
- *    summary: get a task by id
- *    tags: [Tasks]
+ *    summary: get a solenoidValve by id
+ *    tags: [SolenoidValves]
  *    parameters:
- *      - $ref: '#/components/parameters/taskId'
+ *      - $ref: '#/components/parameters/solenoidValveId'
  *    responses:
  *      200:
- *        description: the task was found
+ *        description: the solenoidValve was found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              $ref: '#/components/schemas/SolenoidValve'
  *      404:
- *        description: the task was not found
+ *        description: the solenoidValve was not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
+ *              $ref: '#/components/schemas/SolenoidValveNotFound'
  */
 router.get('/:id', getSolenoidValve);
 
 /**
  * @swagger
- * /tasks:
+ * /solenoidValves:
  *  post:
- *    summary: create a new tasks
- *    tags: [Tasks]
+ *    summary: create a new solenoidValves
+ *    tags: [SolenoidValves]
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Task'
+ *            $ref: '#/components/schemas/SolenoidValve'
  *    responses:
  *     200:
- *       description: the task successfully created
+ *       description: the solenoidValve successfully created
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Task'
+ *             $ref: '#/components/schemas/SolenoidValve'
  *     500:
  *       description: some server error
  */
@@ -144,54 +139,54 @@ router.post('/', saveSolenoidValve);
 
 /**
  * @swagger
- * /tasks/${id}:
+ * /solenoidValves/${id}:
  *  delete:
- *    summary: delete a task by id
- *    tags: [Tasks]
+ *    summary: delete a solenoidValve by id
+ *    tags: [SolenoidValves]
  *    parameters:
- *      - $ref: '#/components/parameters/taskId'
+ *      - $ref: '#/components/parameters/solenoidValveId'
  *    responses:
  *      200:
- *        description: the task was deleted
+ *        description: the solenoidValve was deleted
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              $ref: '#/components/schemas/SolenoidValve'
  *      404:
- *        description: the task was not found
+ *        description: the solenoidValve was not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
+ *              $ref: '#/components/schemas/SolenoidValveNotFound'
  */
 router.delete('/:id', deleteSolenoidValve);
 
 /**
  * @swagger
- * /tasks/${id}:
+ * /solenoidValves/${id}:
  *  put:
- *    summary: update a task by id
- *    tags: [Tasks]
+ *    summary: update a solenoidValve by id
+ *    tags: [SolenoidValves]
  *    parameters:
- *      - $ref: '#/components/parameters/taskId'
+ *      - $ref: '#/components/parameters/solenoidValveId'
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Task'
+ *            $ref: '#/components/schemas/SolenoidValve'
  *    responses:
  *      200:
- *        description: the updated task
+ *        description: the updated solenoidValve
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              $ref: '#/components/schemas/SolenoidValve'
  *      404:
- *        description: the task was not found
+ *        description: the solenoidValve was not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
+ *              $ref: '#/components/schemas/SolenoidValveNotFound'
  */
 router.put('/:id', updateSolenoidValve);

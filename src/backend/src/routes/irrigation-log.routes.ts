@@ -15,77 +15,80 @@ export const router = Router();
  * @swagger
  * components:
  *  schemas:
- *    Task:
+ *    IrrigationLog:
  *     type: object
  *     properties:
  *      id:
- *        type: string
- *        description: the auto-generated id of task
- *      title:
- *        type: string
- *        description: the title of the task
- *      description:
- *        type: string
- *        description: the description of the task
+ *        type: integer
+ *        description: the auto-generated id of irrigationLog
+ *      opened:
+ *        type: integer
+ *        description: the open status of the irrigationLog
+ *      date_of_log:
+ *        type: date
+ *        description: the automatically generated date of the irrigationLog.
+ *      solenoid_valve_id:
+ *        type: integer
+ *        description: the id of the asociated solenoid valve of the irrigationLog
  *     required:
- *      - title
- *      - description
+ *      - opened
+ *      - solenoid_valve_id
  *     example:
- *      id: WQ8aBT2qKrKJdjzplZKjs
- *      title: A task
- *      description: A task description
- *    TaskNotFound:
+ *      id: 1
+ *      opened: 1
+ *      date_of_log: 2021-08-19 23:20:50
+ *    IrrigationLogNotFound:
  *      type: object
  *      properties:
  *        message:
  *          type: string
- *          description: a message for the not found task
+ *          description: a message for the not found irrigationLog
  *      example:
- *        message: Task was not found
+ *        message: IrrigationLog was not found
  *  parameters:
- *    taskId:
+ *    irrigationLogId:
  *      in: path
  *      name: id
  *      required: true
  *      schema:
  *        type: string
- *      description: the task id
+ *      description: the irrigationLog id
  */
 
 /**
  * @swagger
  * tags:
- *  name: Tasks
- *  description:  Tasks endpoint
+ *  name: IrrigationLogs
+ *  description:  IrrigationLogs endpoint
  */
 
 /**
  * @swagger
- * /tasks:
+ * /irrigationLogs:
  *  get:
- *    summary: Returns a task list
- *    tags: [Tasks]
+ *    summary: Returns a irrigationLog list
+ *    tags: [IrrigationLogs]
  *    responses:
  *      200:
- *        description: the list of tasks
+ *        description: the list of irrigationLogs
  *        content:
  *          application/json:
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/Task'
+ *                $ref: '#/components/schemas/IrrigationLog'
  */
 router.get('/', getIrrigationLogs);
 
 /**
  * @swagger
- * /tasks/count:
+ * /irrigationLogs/count:
  *  get:
- *    summary: Get total task count
- *    tags: [Tasks]
+ *    summary: Get total irrigationLog count
+ *    tags: [IrrigationLogs]
  *    responses:
  *      200:
- *        description: the total number of tasks
+ *        description: the total number of irrigationLogs
  *        content:
  *          text/plain:
  *            schema:
@@ -96,47 +99,47 @@ router.get('/count', getIrrigationLogsCount);
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /irrigationLogs/{id}:
  *  get:
- *    summary: get a task by id
- *    tags: [Tasks]
+ *    summary: get a irrigationLog by id
+ *    tags: [IrrigationLogs]
  *    parameters:
- *      - $ref: '#/components/parameters/taskId'
+ *      - $ref: '#/components/parameters/irrigationLogId'
  *    responses:
  *      200:
- *        description: the task was found
+ *        description: the irrigationLog was found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              $ref: '#/components/schemas/IrrigationLog'
  *      404:
- *        description: the task was not found
+ *        description: the irrigationLog was not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
+ *              $ref: '#/components/schemas/IrrigationLogNotFound'
  */
 router.get('/:id', getIrrigationLog);
 
 /**
  * @swagger
- * /tasks:
+ * /irrigationLogs:
  *  post:
- *    summary: create a new tasks
- *    tags: [Tasks]
+ *    summary: create a new irrigationLogs
+ *    tags: [IrrigationLogs]
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Task'
+ *            $ref: '#/components/schemas/IrrigationLog'
  *    responses:
  *     200:
- *       description: the task successfully created
+ *       description: the irrigationLog successfully created
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Task'
+ *             $ref: '#/components/schemas/IrrigationLog'
  *     500:
  *       description: some server error
  */
@@ -144,54 +147,54 @@ router.post('/', saveIrrigationLog);
 
 /**
  * @swagger
- * /tasks/${id}:
+ * /irrigationLogs/${id}:
  *  delete:
- *    summary: delete a task by id
- *    tags: [Tasks]
+ *    summary: delete a irrigationLog by id
+ *    tags: [IrrigationLogs]
  *    parameters:
- *      - $ref: '#/components/parameters/taskId'
+ *      - $ref: '#/components/parameters/irrigationLogId'
  *    responses:
  *      200:
- *        description: the task was deleted
+ *        description: the irrigationLog was deleted
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              $ref: '#/components/schemas/IrrigationLog'
  *      404:
- *        description: the task was not found
+ *        description: the irrigationLog was not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
+ *              $ref: '#/components/schemas/IrrigationLogNotFound'
  */
 router.delete('/:id', deleteIrrigationLog);
 
 /**
  * @swagger
- * /tasks/${id}:
+ * /irrigationLogs/${id}:
  *  put:
- *    summary: update a task by id
- *    tags: [Tasks]
+ *    summary: update a irrigationLog by id
+ *    tags: [IrrigationLogs]
  *    parameters:
- *      - $ref: '#/components/parameters/taskId'
+ *      - $ref: '#/components/parameters/irrigationLogId'
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Task'
+ *            $ref: '#/components/schemas/IrrigationLog'
  *    responses:
  *      200:
- *        description: the updated task
+ *        description: the updated irrigationLog
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              $ref: '#/components/schemas/IrrigationLog'
  *      404:
- *        description: the task was not found
+ *        description: the irrigationLog was not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/TaskNotFound'
+ *              $ref: '#/components/schemas/IrrigationLogNotFound'
  */
 router.put('/:id', updateIrrigationLog);
