@@ -1,16 +1,10 @@
-<a href="https://www.gotoiot.com/">
-    <img src="doc/gotoiot-logo.png" alt="logo" title="Goto IoT" align="right" width="60" height="60" />
+<a href="">
+    <img src="doc/logo-fiuba.png" alt="logo" title="Goto IoT" align="right" width="60" height="60" style="background-color: white"/>
 </a>
 
-# Web App Full Stack Base
+# Trabajo práctico de "Desarollo de aplicaciones multiplataforma"
 
-Este proyecto es una aplicación web fullstack que se ejecuta sobre el ecosistema `Docker`. Está compuesta por un compilador de `TypeScript` que te permite utilizar este superset de JavaScript para poder programar un `cliente web`. También tiene un servicio en `NodeJS` que te permite ejecutar código en backend y al mismo tiempo disponibilizar el código del cliente web para interactar con el servicio.
-
-La aplicación IoT de base que viene con este proyecto se encarga de crear una tabla llamada `Devices` en la base de datos, y la idea es que vos puedas desarrollar el código de backend y frontend que te permita controlar desde el navegador el estado de los devices de un hogar inteligente - _como pueden ser luces, TVs, ventiladores, persianas, enchufes y otros_ - y almacenar los estados de cada uno en la base de datos.
-
-En esta imagen podés ver una posible implementación del cliente web que controla los artefactos del hogar.
-
-![architecture](doc/client-app.png)
+Este proyecto es una aplicación híbrida que se ejecuta en parte sobre el ecosistema `Docker` que se compone de un servicio de base de datos `MySQL` y su administrador `PHPMyAdmin`. Asimismo cuenta de un frontend realizaco con la plataforma `Ionic` y de un backend realizado con `Typescript`.
 
 ## Comenzando 🚀
 
@@ -33,16 +27,49 @@ Continua con la descarga del código cuando tengas las dependencias instaladas y
 Para descargar el código, utiliza este comando desde la terminal o con tu IDE favorito.
 
 ```
-git clone https://github.com/NGSalvo/app-fullstack-base.git
+git clone https://github.com/NGSalvo/dam-tp
 ```
 
 > No es necesario contar con una cuenta en Github.
 
-### Ejecutar la aplicación
+### Instalar y ejecutar
 
-Para ejecutar la aplicación tenes que correr el comando `docker-compose up` desde la raíz del proyecto. Este comando va a descargar las imágenes de Docker de node, de typescript, de la base datos y del admin de la DB, y luego ponerlas en funcionamiento.
+**Base de datos**
+Para instalar y levantar la base de datos tenes que correr el comando `docker-compose up` desde la raíz del proyecto. Este comando va a descargar las imágenes de Docker de la base datos, del admin de la DB, y luego ponerlas en funcionamiento.
 
-Para acceder al cliente web ingresa a a la URL [http://localhost:8000/](http://localhost:8000/).
+Para acceder al administrador de la BD ingresa a la URL [http://localhost:8001/](http://localhost:8001/)
+
+**Backend**
+Para la instalacion y puesta en marcha del backend dirigirse a /src/backend y ejecutar el comando
+
+```
+npm install
+```
+
+para instalar las dependencias necesarias para ejecutarlo. Una vez finalizada la instalación entonces correr el comando
+
+```
+npm run serve
+```
+
+para levantar el servicio.
+
+Para acceder a la documentación de la API ingresar a la URL [http://localhost:3000/docs](http://localhost:3000/docs)
+
+**Frontend**
+Para instalar y correr el frontend, pararse sobre la ruta /src/fronted y ejecutar el comando
+
+```
+npm install
+```
+
+para instalar las dependencias del código. Acto seguido correr el comando
+
+```
+npm run lab
+```
+
+Para acceder al cliente web ingresa a a la URL [http://localhost:8200/](http://localhost:8200/) o [http://localhost:8100/](http://localhost:8100/) para el formato APP.
 
 Si pudiste acceder al cliente web significa que la aplicación se encuentra corriendo bien.
 
@@ -54,7 +81,7 @@ Continuá explorando el proyecto una vez que lo tengas funcionando.
 
 ## Configuraciones de funcionamiento 🔩
 
-Al crearse la aplicación se ejecutan los contenedores de Docker de cada servicio, se crea la base de datos y sus tablas. A continuación podés encontrar info si querés cambiar la estructura de la DB o bien sus configuraciones de acceso.
+Al crearse la aplicación se ejecutan los contenedores de Docker de cada servicio, se crea la base de datos y sus tablas.
 
 ## Detalles principales 🔍
 
@@ -63,27 +90,29 @@ En esta sección vas a encontrar las características más relevantes del proyec
 <details><summary><b>Mira los detalles más importantes de la aplicación</b></summary><br>
 <br>
 
-### Arquitectura de la aplicación
+### Base de datos
 
-Como ya pudiste ver, la aplicación se ejecuta sobre el ecosistema Docker, y en esta imagen podés ver el diagrama de arquitectura.
-
-![architecture](doc/architecture.png)
+La base de datos se encuentra en un contenedor de Docker. Al inicio de la aplicación no hay registros en la BD, por lo que lo primero que hace es generar la estructura.
 
 ### El cliente web
 
-El cliente web es una Single Page Application que se comunica con el servicio en NodeJS mediante JSON a través de requests HTTP. Puede consultar el estado de dispositivos en la base de datos (por medio del servicio en NodeJS) y también cambiar el estado de los mismos. Los estilos del código están basados en [**Material Design**](https://materializecss.com/).
+El cliente web es una Single Page Application que se comunica con el servicio en NodeJS mediante JSON a través de requests HTTP. Puede consultar el estado de dispositivos en la base de datos (por medio del servicio en NodeJS) y también cambiar el estado de los mismos.
 
 ### El servicio web
 
 El servicio en **NodeJS** posee distintos endpoints para comunicarse con el cliente web mediante requests HTTP enviando **JSON** en cada transacción. Procesando estos requests es capaz de comunicarse con la base de datos para consultar y controlar el estado de los dispositivos, y devolverle una respuesta al cliente web también en formato JSON. Así mismo el servicio es capaz de servir el código del cliente web.
 
-### El compilador de TypeScript
+### Documentación con Swagger API
 
-**TypeScript** es un lenguaje de programación libre y de código abierto desarrollado y mantenido por Microsoft. Es un superconjunto de JavaScript, que esencialmente añade tipos estáticos y objetos basados en clases. Para esta aplicación se usa un compilador de TypeScript basado en una imagen de [Harmish](https://hub.docker.com/r/harmish) en Dockerhub, y está configurado para monitorear en tiempo real los cambios que se realizan sobre el directorio **src/frontend/ts** y automáticamente generar código compilado a JavaScript en el directorio **src/frontend/js**. Los mensajes del compilador aparecen automáticamente en la terminal al ejecutar el comando **docker-compose up**.
+La documentación de la API está a cargo del estándar definido en la **OpenAPI Specification** compuesta por una interfáz para API REST que permite tanto a las personas como a las máquinas descubrir y comprender las capacidades de un servicio sin tener acceso al código o documentación.
 
-### Ejecución de servicios
+### Angular
 
-Los servicios de la aplicación se ejecutan sobre **contenedores de Docker**, así se pueden desplegar de igual manera en diferentes plataformas. Los detalles sobre cómo funcionan los servicios los podés ver directamente en el archivo **docker-compose.yml**.
+**Angular** es una plataforma de desarollo en el lenguaje de JavaScript que a su vez está desarollada en el lenguaje de programación libre y de código abierto desarrollado y mantenido por Microsoft, **TypeScript**.
+
+### Ionic
+
+**Ionic** es un conjunto de herramientas de interfaz de usuario de codigo abierto para el desarrollo de aplicaciones híbridas. Nos brinda la facilidad de portabilizar el código a diferentes plataformas móviles.
 
 ### Organización del proyecto
 
@@ -93,20 +122,65 @@ En la siguiente ilustración podés ver cómo está organizado el proyecto para 
 ├── db                          # directorio de la DB
 │   ├── data                    # estructura y datos de la DB
 │   └── dumps                   # directorio de estructuras de la DB
-│       └── smart_home.sql      # estructura con la base de datos "smart_home"
-├── doc                         # documentacion general del proyecto
-└── src                         # directorio codigo fuente
-│   ├── backend                 # directorio para el backend de la aplicacion
-│   │   ├── index.js            # codigo principal del backend
-│   │   ├── mysql-connector.js  # codigo de conexion a la base de datos
-│   │   ├── package.json        # configuracion de proyecto NodeJS
-│   │   └── package-lock.json   # configuracion de proyecto NodeJS
-│   └── frontend                # directorio para el frontend de la aplicacion
-│       ├── js                  # codigo javascript que se compila automáticamente
-│       ├── static              # donde alojan archivos de estilos, imagenes, fuentes, etc.
-│       ├── ts                  # donde se encuentra el codigo TypeScript a desarrollar
-│       └── index.html          # archivo principal del cliente HTML
-├── docker-compose.yml          # archivo donde se aloja la configuracion completa
+│       └── dump-dam_fiuba.sql  # estructura con la base de datos "dam_fiuba"
+├── doc                         # documentación general del proyecto
+└── src                         # directorio código fuente
+│   ├── backend                 # directorio para el backend de la aplicación
+│   │   ├── scripts             # directorio de scripts
+│   │   ├   └──db.sql           # DDL de la BD
+│   │   ├── requests            # directorio de consultas HTTP
+│   │   ├   ├──devices.http     # consultas de dispositivos
+│   │   ├   ├──irrigation-log.http  # consultas de registro de riego
+│   │   ├   ├──measurements.http    # consultas de mediciones
+│   │   ├   └──solenoid-valves.http # consultas de valvulas
+│   │   ├── src                 # directorio de código fuente
+│   │   ├   ├──routes           # directorio de las rutas (Endpoints de la API)
+│   │   ├     └──...            # declaración de las diferentes rutas con especificación de la documentación de Swagger API
+│   │   ├   ├──controllers      # directorio de los métodos con las llamadas a BD
+│   │   ├     └──...            # código de los diferentes metodos separados por Endpoint
+│   │   ├   ├──models           # directorio de los modelos de datos
+│   │   ├     └──...            # código de los diferentes modelos
+│   │   ├   ├──app.ts           # código principal del backend
+│   │   ├   ├──config.ts        # configuración de la BD
+│   │   ├   ├──db.ts            # código de conexion a la base de datos
+│   │   ├   ├──index.ts         # entrada de backend
+│   │   ├   └──swaggerOptions.ts #configuración de Swagger API
+│   │   ├── nodemon.json        # configuración de proyecto NodeJS
+│   │   ├── package.json        # configuración de proyecto NodeJS
+│   │   ├── package-lock.json   # configuración de proyecto NodeJS
+│   │   └── tsconfig.json       # configuración de proyecto NodeJS
+│   └── frontend                # directorio para el frontend de la aplicación
+│       ├── src                 # directorio de código fuente
+│       ├   ├──app              # directorio de código principal
+│       ├   ├   ├──device       # directorio de código de dispositivos
+│       ├   ├     └──...        #
+│       ├   ├   ├──home         # directorio de código de lista de dispositivos
+│       ├   ├     └──...        #
+│       ├   ├   ├──irrigation-log-list  # directorio de código lista de regitros de riego
+│       ├   ├     └──...        #
+│       ├   ├   ├──measurement-list # directorio de código de lista de mediciones
+│       ├   ├     └──...        #
+│       ├   ├   ├──models       # directorio de modelos
+│       ├   ├     └──...        #
+│       ├   ├   ├──services     # directorio de servicios
+│       ├   ├     └──...        #
+│       ├   ├   ├──app-routing.module.ts  # direccion de rutas de la aplicación
+│       ├   ├   ├──app.component.ts       # código del componente principal de la aplicación
+│       ├   ├   ├──app.component.scss     # estilos del componente principal de la aplicación
+│       ├   ├   ├──app.component.html     # maquetación del componente principal de la aplicación
+│       ├   ├   └──app.module.ts          # módulos del componente principal de la aplicación
+│       ├   ├──assets           # directorio de recursos estáticos
+│       ├     └──...            #
+│       ├   ├──environments     # directorio de configuración de entorno
+│       ├     └──...            #
+│       ├   ├──theme            # directorio de estilos
+│       ├     └──...            #
+│       ├   ├──global.scss      # configuración de la BD
+│       ├   ├──index.html       # código de conexion a la base de datos
+│       ├   ├──main.ts          # punto de entrada de la aplicación
+│       ├   └──swaggerOptions.ts #configuración de Swagger API
+│       ├── ...                 # resto de archivos de configuración
+├── docker-compose.yml          # archivo donde se aloja la configuración completa
 ├── README.md                   # este archivo
 ├── CHANGELOG.md                # archivo para guardar los cambios del proyecto
 ├── LICENSE.md                  # licencia del proyecto
@@ -120,85 +194,36 @@ En esta sección podés ver los detalles específicos de funcionamiento del cód
 
 <details><summary><b>Mira los detalles de implementación</b></summary><br>
 
-### Agregar un dispositivo
-
-Para agregar un dispositvo se debe presionar sobre el botón que se muestra en la **Figura 1**.
-
-![Agregar nuevo](doc/device-abm/00-add.png)
-
-<figcaption><p align=center>Figura 1.</p></figcaption>
-
-Llenar los datos y presionar el botón **Guardar** como se muestra en la **Figura 2**.
-
-![Guardar nuevo](doc/device-abm/01-modal_empty.png)
-
-<figcaption><p align=center>Figura 2.</p></figcaption>
-
-Una vez guardado debe desplegarse la notificación de guardado exitoso. Ver **Figura 3**.
-
-![Notificación creación](doc/device-abm/03-notificacion.png)
-
-<figcaption><p align=center>Figura 3.</p></figcaption>
-
-### Editar un dispositivo
-
-Para editar, presionar sobre el botón **Editar** en uno de los dispositivos como se muestra en la **Figura 4**.
-
-![Editar](doc/device-abm/04-edit.png)
-
-<figcaption><p align=center>Figura 4.</p></figcaption>
-
-Cuando se abre el modal, traerá los datos del dispositivo seleccionado. Editar los campos que se deseen y presionár el botón **Guardar** como se muestra en la **Figura 5**.
-
-![Guardar editado](doc/device-abm/05-editar.png)
-
-<figcaption><p align=center>Figura 5.</p></figcaption>
-
-Una vez guardado debe desplegarse la notificación de cambio exitoso. Ver **Figura 6**.
-
-![Notificación edición](doc/device-abm/06-notificacion_edit.png)
-
-<figcaption><p align=center>Figura 6.</p></figcaption>
-
-### Eliminar un dispositivo
-
-Para eliminar un dispositivo, presionar sobre el botón **Eliminar** en uno de los dispositivos como se muestra en la **Figura 7**.
-
-![Eliminar](doc/device-abm/07-delete.png)
-
-<figcaption><p align=center>Figura 7.</p></figcaption>
-
-En el modal, presionar sobre el botón **Sí** para confirmar la eliminación como se muestra en la **Figura 8**.
-
-![Confirmar eliminado](doc/device-abm/08-confirmar_eliminar.png)
-
-<figcaption><p align=center>Figura 8.</p></figcaption>
-
-Una vez confirmado debe desplegarse la notificación de eliminación exitosa. Ver **Figura 9**.
-
-![Notificación eliminación](doc/device-abm/09-notificacion_eliminar.png)
-
-<figcaption><p align=center>Figura 9.</p></figcaption>
-
 ### Frontend
 
-El frontend está divido en 3 grandes clases:
+El frontend contiene el código principal distribuído dentro de la carpeta `app` en src.
+Su estructura consiste de componenentes, cada uno separado en una carpeta diferente, que a su vez contiene la vista y su controlador.
+Estos componentes son:
 
-- main.ts
-- MyFramework.ts
-- ViewMainPage.ts
+- device
+- home
+- irrigation-log-list
+- measurement-list
+- app
+  Asi mismo en la carpeta `app` esta compuesto por los servicios utilizados en los componentes y los modelos.
+  Los servicios son:
+- device.service.ts
+- irrigation-log.service.ts
 
-`main.ts` está compuesto por la logica principal del programa. En ella se encuentran el manejo de eventos de la UI.
+`app` es el punto de entrada de la aplicación. Contiene solo un enrutador donde se cargará la primera vista. Es el componente que esta declarado dentro del `index.html`.
+`home` es el primer componente con información. Representa la lista de los dispositivos tras la obtención de los datos.
+`device` es el componente que representa un dispositivo.
+`irrigation-log-list` es el componente por el que el modal es cargado cuando se ejecuta desde un dispositivo. Muestra la lista de registros de riego del dispositivo.
+`measurement-list` vincula las mediciones de un dispositivo y las lista.
 
-`MyFramework.ts` contiene algunas utilidades para obtención de partes del DOM. También posee la estructura principal de los llamados AJAX.
+`device.service.ts` contiene los llamados a una REST API.
+`irrigation-log.service.ts` contiene los llamados a una REST API.
 
-`ViewMainPage.ts` contiene solo modificaciones del DOM, como los agregados de los dispositivos. También cuenta con la función de renderización y refresco de los dispositivos.
-
-Interactua con el backend por medio de las llamadas AJAX, realizando las correspondientes peticions GET (para obtener información del servidor), PUT (para actualizar un dispositivo), POST (para agregar un dispositivo) y DELETE (para eliminación de un dispositivo).
+Interactua con el backend por medio de las llamadas HTTP, realizando las correspondientes peticions GET (para obtener información del servidor), PUT (para actualizar información), POST (para agregar información) y DELETE (para eliminar información).
 
 ### Backend
 
-El backend consiste de todos los endpoints para que el cliente web interactue. Estos endpoints contienen la lógica para escribir y obtener información de un archivo `devices.json`.
+El backend consiste de todos los endpoints para que el cliente web interactue. Estos endpoints contienen la lógica para escribir y obtener información de la base de datos `dam_fiuba`.
 
 Los métodos utilizados son GET, POST, PUT y DELETE.
 
@@ -207,96 +232,13 @@ POST agrega nueva información.
 PUT modifica información.
 DELETE elimina información.
 
-Para fines demostrativos se utilizaron los 4 tipos, pero dado que el proyecto fue realizado con archivos, hubiese alcanzado simplemente con POST y GET.
+El código está segregado principalmente en las rutas y los controladores.
+Las rutas contienen el endpoint a consultar, la especificación para documentar el endpoint y el llamado a los métodos que se ejecutarán con el endpoint.
+Los controladores describen los métodos que serán utilizado en los diferentes endpoints y están conformados por las llamadas a la base de datos.
 
 <details><summary><b>Ver los endpoints disponibles</b></summary><br>
 
-## Obtener todos los dispositivos
-
-```json
-{
-  "endpoint": "/devices",
-  "method": "get",
-  "request_headers": "application/json",
-  "request_body": "",
-  "response_code": 200,
-  "response_body": {
-    "devices": [
-      {
-        "id": 1,
-        "name": "Lámpara 1",
-        "description": "Luz Living",
-        "state": 0,
-        "type": 0
-      }
-    ]
-  }
-}
-```
-
-## Obtener un dispositivo
-
-```json
-{
-  "endpoint": "/devices/:id",
-  "method": "get",
-  "request_headers": "application/json",
-  "request_body": "",
-  "response_code": 200,
-  "response_body": {
-    "devices": {
-      "id": 1,
-      "name": "Lámpara 1",
-      "description": "Luz Living",
-      "state": 0,
-      "type": 0
-    }
-  }
-}
-```
-
-## Actualizar un dispositivo
-
-```json
-{
-  "endpoint": "/devices/:id",
-  "method": "put",
-  "request_headers": "application/json",
-  "request_body": "Cualquier parámetro de un dispositivo",
-  "response_code": 200,
-  "response_body": { "message": "Se realizó el cambio correctamente" }
-  }
-}
-```
-
-## Crear un dispositivo
-
-```json
-{
-  "endpoint": "/devices/create",
-  "method": "post",
-  "request_headers": "application/json",
-  "request_body": "",
-  "response_code": 201,
-  "response_body": {
-    "devices": { "message": "Se creó el dispositivo satisfactoriamente" }
-  }
-}
-```
-
-## Eliminar un dispositivo
-
-```json
-{
-  "endpoint": "/devices/:id",
-  "method": "delete",
-  "request_headers": "application/json",
-  "request_body": "Cualquier parámetro de un dispositivo",
-  "response_code": 200,
-  "response_body": { "message": "Se eliminó el dispositivo Lámpara 1" }
-  }
-}
-```
+Para acceder a la documentación de la API levantar el backend e ingresar a la URL [http://localhost:3000/docs](http://localhost:3000/docs)
 
 </details>
 
@@ -311,43 +253,20 @@ En esta sección podés ver las tecnologías más importantes utilizadas.
 - [Docker](https://www.docker.com/) - Ecosistema que permite la ejecución de contenedores de software.
 - [Docker Compose](https://docs.docker.com/compose/) - Herramienta que permite administrar múltiples contenedores de Docker.
 - [Node JS](https://nodejs.org/es/) - Motor de ejecución de código JavaScript en backend.
-- [Material Design](https://material.io/design) - Bibliotecas de estilo responsive para aplicaciones web.
+- [Ionic](https://ionicframework.com/) - Bibliotecas de estilo responsive para aplicaciones web.
 - [TypeScript](https://www.typescriptlang.org/) - Superset de JavaScript tipado y con clases.
+- [Swagger API](https://swagger.io/) - Especificación de API
 
 </details>
-
-## Sobre Goto IoT 📖
-
-Goto IoT es una plataforma que publica material y proyectos de código abierto bien documentados junto a una comunidad libre que colabora y promueve el conocimiento sobre IoT entre sus miembros. Acá podés ver los links más importantes:
-
-- **[Sitio web](https://www.gotoiot.com/):** Donde se publican los artículos y proyectos sobre IoT.
-- **[Github de Goto IoT:](https://github.com/gotoiot)** Donde están alojados los proyectos para descargar y utilizar.
-- **[Comunidad de Goto IoT:](https://groups.google.com/g/gotoiot)** Donde los miembros de la comunidad intercambian información e ideas, realizan consultas, solucionan problemas y comparten novedades.
-- **[Twitter de Goto IoT:](https://twitter.com/gotoiot)** Donde se publican las novedades del sitio y temas relacionados con IoT.
-- **[Wiki de Goto IoT:](https://github.com/gotoiot/doc/wiki)** Donde hay información de desarrollo complementaria para ampliar el contexto.
 
 ## Autores 👥
 
 Las colaboraciones principales fueron realizadas por:
 
-- **[Agustin Bassi](https://github.com/agustinBassi)**: Ideación, puesta en marcha y mantenimiento del proyecto.
-- **[Ernesto Giggliotti](https://github.com/ernesto-g)**: Creación inicial del frontend, elección de Material Design.
+- **[Agustin Bassi](https://github.com/agustinBassi)**: Estructura inicial del proyecto.
 - **[Brian Ducca](https://github.com/brianducca)**: Ayuda para conectar el backend a la base de datos, puesta a punto de imagen de Docker.
-- **[Nicolás Salvo](https://github.com/NGSalvo)**: realizó el ejercicio para la materia DAW de la Carrera de Especialización en Internet de las Cosas.
+- **[Nicolás Salvo](https://github.com/NGSalvo)**: realizó el ejercicio para la materia DAM de la Carrera de Especialización en Internet de las Cosas.
 
-También podés mirar todas las personas que han participado en la [lista completa de contribuyentes](https://github.com/###/contributors).
-
-## Licencia 📄
-
-Este proyecto está bajo Licencia ([MIT](https://choosealicense.com/licenses/mit/)). Podés ver el archivo [LICENSE.md](LICENSE.md) para más detalles sobre el uso de este material.
+.
 
 ---
-
-**Copyright © Goto IoT 2021** ⌨️ [**Website**](https://www.gotoiot.com) ⌨️ [**Group**](https://groups.google.com/g/gotoiot) ⌨️ [**Github**](https://www.github.com/gotoiot) ⌨️ [**Twitter**](https://www.twitter.com/gotoiot) ⌨️ [**Wiki**](https://github.com/gotoiot/doc/wiki)
-
----
-
-Se utilizó como recurso gratuito:
-
-- <a target="_blank" href="https://icons8.com/icon/yGKsUh4h-5W2/light-dimmer">Light Dimmer</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-- <a target="_blank" href="https://icons8.com/icon/XBJfETMfZHpS/light">Light</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
