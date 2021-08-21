@@ -270,3 +270,7 @@ Las colaboraciones principales fueron realizadas por:
 .
 
 ---
+
+# Licencia
+
+Este proyecto está bajo Licencia ([MIT](https://choosealicense.com/licenses/mit/)). Podés ver el archivo [LICENSE](LICENSE) para más detalles sobre el uso de este material.
