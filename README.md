@@ -153,17 +153,21 @@ En la siguiente ilustración podés ver cómo está organizado el proyecto para 
 │       ├── src                 # directorio de código fuente
 │       ├   ├──app              # directorio de código principal
 │       ├   ├   ├──device       # directorio de código de dispositivos
-│       ├   ├     └──...        #
+│       ├   ├     └──...        # componente de dispositivo
 │       ├   ├   ├──home         # directorio de código de lista de dispositivos
-│       ├   ├     └──...        #
+│       ├   ├     └──...        # componente de listar dispositivos
 │       ├   ├   ├──irrigation-log-list  # directorio de código lista de regitros de riego
-│       ├   ├     └──...        #
+│       ├   ├     └──...        # componente de modal de registro de riego
 │       ├   ├   ├──measurement-list # directorio de código de lista de mediciones
-│       ├   ├     └──...        #
+│       ├   ├     └──...        # componente de listado de mediciones
 │       ├   ├   ├──models       # directorio de modelos
-│       ├   ├     └──...        #
+│       ├   ├     └──...        # Modelos
 │       ├   ├   ├──services     # directorio de servicios
-│       ├   ├     └──...        #
+│       ├   ├     └──...        # Servicios
+│       ├   ├   ├──pipes        # directorio de pipes
+│       ├   ├     └──risk-classify.pipe.ts  # código de tuberia encargada de clasificar las mediciones
+│       ├   ├   ├──directives   # directorio de servicios
+│       ├   ├     └──multi-color.directive.ts # código de directiva para cambiar a un color aleatorio
 │       ├   ├   ├──app-routing.module.ts  # direccion de rutas de la aplicación
 │       ├   ├   ├──app.component.ts       # código del componente principal de la aplicación
 │       ├   ├   ├──app.component.scss     # estilos del componente principal de la aplicación
@@ -205,8 +209,10 @@ Estos componentes son:
 - irrigation-log-list
 - measurement-list
 - app
-  Asi mismo en la carpeta `app` esta compuesto por los servicios utilizados en los componentes y los modelos.
-  Los servicios son:
+
+Asi mismo en la carpeta `app` esta compuesto por los servicios utilizados en los componentes y los modelos.
+Los servicios son:
+
 - device.service.ts
 - irrigation-log.service.ts
 
