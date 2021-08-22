@@ -26,7 +26,7 @@ export class DevicePage implements OnInit, ViewWillEnter, ViewDidEnter {
   measurements: Array<Measurement>;
 
   public myChart;
-  private valorObtenido = 0;
+  public valorObtenido = 0;
   private chartOptions;
 
   constructor(

@@ -9,7 +9,7 @@
       *ngFor="let device of devices"
       [routerLink]="['/device/' + device.id]"
     >
-      <ion-label>{{device.name}}</ion-label>
+      <ion-label multiColor>{{device.name}}</ion-label>
       <ion-icon slot="start" name="thermometer-outline"></ion-icon>
     </ion-item>
   </ion-list>
