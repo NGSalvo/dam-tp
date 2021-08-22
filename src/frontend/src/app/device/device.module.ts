@@ -8,6 +8,7 @@ import { DevicePageRoutingModule } from './device-routing.module';
 
 import { DevicePage } from './device.page';
 import { IrrigationLogListPageModule } from '../irrigation-log-list/irrigation-log-list.module';
+import { RiskClassifyPipe } from '../pipes/risk-classify.pipe';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { IrrigationLogListPageModule } from '../irrigation-log-list/irrigation-l
     DevicePageRoutingModule,
     IrrigationLogListPageModule,
   ],
-  declarations: [DevicePage],
+  declarations: [DevicePage, RiskClassifyPipe],
 })
 export class DevicePageModule {}

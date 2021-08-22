@@ -13,8 +13,8 @@ import { MeasurementListPage } from './measurement-list.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    MeasurementListPageRoutingModule
+    MeasurementListPageRoutingModule,
   ],
-  declarations: [MeasurementListPage]
+  declarations: [MeasurementListPage],
 })
 export class MeasurementListPageModule {}
