@@ -179,6 +179,8 @@ En la siguiente ilustración podés ver cómo está organizado el proyecto para 
 │       ├     └──...            #
 │       ├   ├──theme            # directorio de estilos
 │       ├     └──...            #
+│       ├   ├──shared           # directorio de archivos compartidos
+│       ├     └──shared.module.ts # configuración de archivos compartidos
 │       ├   ├──global.scss      # configuración de la BD
 │       ├   ├──index.html       # código de conexion a la base de datos
 │       ├   ├──main.ts          # punto de entrada de la aplicación
@@ -215,6 +217,8 @@ Los servicios son:
 
 - device.service.ts
 - irrigation-log.service.ts
+
+También se encuentra el directorio ´shared´ que contiene un módulo que luego es importado en los componentes donde se desee usar los archivos declarados, tales como pipes y directives.
 
 `app` es el punto de entrada de la aplicación. Contiene solo un enrutador donde se cargará la primera vista. Es el componente que esta declarado dentro del `index.html`.
 `home` es el primer componente con información. Representa la lista de los dispositivos tras la obtención de los datos.
